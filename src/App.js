@@ -35,23 +35,24 @@ function App() {
   };
 
   const generateRandomNames = () => {
-    if (!numberOfNames > new Set(names).size - 1) {
-      alert("Please enter more names before generating random names.");
-      return;
+    if (numberOfNames >= new Set(names).size) {
+        setRandomNames([...new Set(names)]);
+    } else {
+        let tempRandomNames = [];
+        let setNames = new Set();
+        for (let i = 0; i < numberOfNames; i++) {
+            const randomIndex = Math.floor(Math.random() * names.length);
+            if (!setNames.has(names[randomIndex])) {
+                tempRandomNames = [...tempRandomNames, names[randomIndex]];
+                setNames.add(names[randomIndex]);
+            } else {
+                i--;
+            }
+        }
+        setRandomNames(tempRandomNames);
     }
-    let tempRandomNames = [];
-    let setNames = new Set();
-    for (let i = 0; i < numberOfNames; i++) {
-      const randomIndex = Math.floor(Math.random() * names.length);
-      if (!setNames.has(names[randomIndex])) {
-        tempRandomNames = [...tempRandomNames, names[randomIndex]];
-        setNames.add(names[randomIndex]);
-      } else {
-        i--;
-      }
-    }
-    setRandomNames(tempRandomNames);
-  };
+};
+
 
   return (
     <Container>
